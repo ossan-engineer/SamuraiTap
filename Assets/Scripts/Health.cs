@@ -27,6 +27,9 @@ public class Health : MonoBehaviour {
 			// life -= 1;
 			life -= health.attack;
 
+			// TODO: LifeGaugeUI.SendMessage("updateLifeGauge");
+			// GameObject.Find("LifeGaugeUI").SendMessage("updateLifeGauge");
+
 			// Debug.Log (life);
 
 			if (life <= 0) {

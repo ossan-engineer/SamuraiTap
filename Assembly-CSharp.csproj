@@ -48,15 +48,15 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Boss.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
+     <Compile Include="Assets\Scripts\LifeGaugeUI.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemAutoDestruct.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\ProgressGUI.cs" />
      <Compile Include="Assets\Scripts\SoundEffectsHelper.cs" />
-     <Compile Include="Assets\Scripts\TimeGUI.cs" />
-     <None Include="Assets\RPG Battle Music\readme.txt" />
-     <None Include="Assets\Free Pack\Metal Loop Pack\readme Unity.txt" />
-     <None Include="Assets\The combat collection STARTER\the combat collection.txt" />
-     <None Include="Assets\Free Pack\Readme.txt" />
+     <None Include="Assets\Sounds\RPG Battle Music\readme.txt" />
+     <None Include="Assets\Sounds\Free Pack\Metal Loop Pack\readme Unity.txt" />
+     <None Include="Assets\Sounds\The combat collection STARTER\the combat collection.txt" />
+     <None Include="Assets\Sounds\Free Pack\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
