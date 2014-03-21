@@ -6,6 +6,9 @@ public class GameOverWrapper : MonoBehaviour {
 	public bool isGameOver = false;
 	// public AudioClip SEClip;
 
+	public float timer;
+	public float waitingTime = 2f;
+
 	// Use this for initialization
 	void BlowOff () {
 		Hashtable hTable = new Hashtable();
@@ -32,8 +35,14 @@ public class GameOverWrapper : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isGameOver) {
-			if (Input.GetButtonDown("Fire1")) {
-				Application.LoadLevel("Title");
+
+			timer += Time.deltaTime;
+			if(timer > waitingTime){
+				//Action
+				if (Input.GetButtonDown("Fire1")) {
+					Application.LoadLevel("Title");
+				}
+				// timer = 0;
 			}
 		}	
 	}

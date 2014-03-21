@@ -72,7 +72,9 @@ public class LifeGaugeUI : MonoBehaviour {
 
 			// GameObject.Find("Main Camera").SendMessage("StageClear");
 			GameObject.Find("Main Camera").GetComponent<AudioSource>().Stop();
-			GameObject.FindWithTag("Player").GetComponent<Player>().enabled = false;
+			foreach (GameObject player in players) {
+				player.GetComponent<Player>().enabled = false;
+			}
 			GameObject.Find("StageClearWrapper").SendMessage("BlowOff");
 			// GameObject.Find("StageClear").SendMessage("BlowOff");
 

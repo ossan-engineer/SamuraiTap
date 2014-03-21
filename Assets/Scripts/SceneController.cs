@@ -10,7 +10,7 @@ public class SceneController : MonoBehaviour {
 	public bool isStageEnd;
 
 	public float timer;
-	public float waitingTime;
+	public float waitingTime = 2f;
 
 	public string nextStage;
 
@@ -21,9 +21,15 @@ public class SceneController : MonoBehaviour {
 	}
 
 	void Update () {
+
 		if (isStageEnd) {
-			if (Input.GetButtonDown("Fire1")) {
-				Application.LoadLevel(nextStage);
+
+			timer += Time.deltaTime;
+			if(timer > waitingTime){
+				if (Input.GetButtonDown("Fire1")) {
+					Application.LoadLevel(nextStage);
+				}
+//				// timer = 0;
 			}
 		}
 	}

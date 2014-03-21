@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Wizard : MonoBehaviour {
 
-	public int heal = 5;
+	public int heal = 3;
 	
 	void OnCollisionEnter2D(Collision2D coll) {
 		
