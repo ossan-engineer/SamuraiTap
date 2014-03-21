@@ -20,6 +20,7 @@ public class SoundEffectsHelper : MonoBehaviour
 	public AudioClip destroySound;
 	public AudioClip bossDestroySound;
 	public AudioClip healingSound;
+	public AudioClip enemyHealingSound;
 
 	
 	void Awake()
@@ -72,6 +73,11 @@ public class SoundEffectsHelper : MonoBehaviour
 	public void MakeHealingSound()
 	{
 		MakeSound(healingSound);
+	}
+
+	public void MakeEnemyHealingSound()
+	{
+		MakeSound(enemyHealingSound);
 	}
 	
 	/// <summary>
