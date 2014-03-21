@@ -21,9 +21,10 @@ public class Health : MonoBehaviour {
 
 			life -= health.attack;
 
-			GameObject.Find("LifeGaugeUI").SendMessage("UpdateLifeGauge");
+//			GameObject.Find("LifeGaugeUI").SendMessage("UpdateLifeGauge");
 
 			if (life <= 0) {
+				life = 0;
 				Destroy(gameObject);
 
 				if (particlePrefab != null) {
@@ -57,6 +58,7 @@ public class Health : MonoBehaviour {
 					}
 				}
 			}
+			GameObject.Find("LifeGaugeUI").SendMessage("UpdateLifeGauge");
 		}
 //		} else if (coll.gameObject.tag == "Wall") {
 //			SoundEffectsHelper.Instance.MakeNoDamageSound();
