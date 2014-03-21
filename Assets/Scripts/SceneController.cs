@@ -17,7 +17,7 @@ public class SceneController : MonoBehaviour {
 	void Start () {
 //		stageClear.enabled = false;
 //		gameOver.enabled = false;
-		isStageEnd = false;
+		//isStageEnd = false;
 	}
 
 	void Update () {
