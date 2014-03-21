@@ -12,13 +12,20 @@ public class SoundEffectsHelper : MonoBehaviour
 	/// </summary>
 	public static SoundEffectsHelper Instance;
 	
+	// public AudioClip dashSound;
 	public AudioClip explosionSound;
 	public AudioClip playerShotSound;
 	public AudioClip enemyShotSound;
+	public AudioClip noDamageSound;
 	public AudioClip destroySound;
+	public AudioClip bossDestroySound;
+	public AudioClip healingSound;
+
 	
 	void Awake()
 	{
+		Application.targetFrameRate = 60;
+
 		// Register the singleton
 		if (Instance != null)
 		{
@@ -27,6 +34,11 @@ public class SoundEffectsHelper : MonoBehaviour
 		Instance = this;
 	}
 	
+//	public void MakeDashSound()
+//	{
+//		MakeSound(dashSound);
+//	}
+
 	public void MakeExplosionSound()
 	{
 		MakeSound(explosionSound);
@@ -42,9 +54,24 @@ public class SoundEffectsHelper : MonoBehaviour
 		MakeSound(enemyShotSound);
 	}
 
+	public void MakeNoDamageSound()
+	{
+		MakeSound(noDamageSound);
+	}
+
 	public void MakeDestroySound()
 	{
 		MakeSound(destroySound);
+	}
+
+	public void MakeBossDestroySound()
+	{
+		MakeSound(bossDestroySound);
+	}
+
+	public void MakeHealingSound()
+	{
+		MakeSound(healingSound);
 	}
 	
 	/// <summary>
@@ -56,4 +83,9 @@ public class SoundEffectsHelper : MonoBehaviour
 		// As it is not 3D audio clip, position doesn't matter.
 		AudioSource.PlayClipAtPoint(originalClip, transform.position);
 	}
+
+//	private void StopSound(AudioClip originalClip)
+//	{
+//		dashSound.Stop();
+//	}
 }

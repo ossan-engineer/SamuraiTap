@@ -46,17 +46,29 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AdListener.cs" />
      <Compile Include="Assets\Scripts\Boss.cs" />
+     <Compile Include="Assets\Scripts\GameOver.cs" />
+     <Compile Include="Assets\Scripts\GameOverWrapper.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\LifeGaugeUI.cs" />
+     <Compile Include="Assets\Scripts\MenuGUI.cs" />
+     <Compile Include="Assets\Scripts\Monk.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemAutoDestruct.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\ProgressGUI.cs" />
+     <Compile Include="Assets\Scripts\Players.cs" />
+     <Compile Include="Assets\Scripts\SampleGUI.cs" />
+     <Compile Include="Assets\Scripts\SceneController.cs" />
      <Compile Include="Assets\Scripts\SoundEffectsHelper.cs" />
-     <None Include="Assets\Sounds\RPG Battle Music\readme.txt" />
-     <None Include="Assets\Sounds\Free Pack\Metal Loop Pack\readme Unity.txt" />
-     <None Include="Assets\Sounds\The combat collection STARTER\the combat collection.txt" />
-     <None Include="Assets\Sounds\Free Pack\Readme.txt" />
+     <Compile Include="Assets\Scripts\Stage.cs" />
+     <Compile Include="Assets\Scripts\StageClear.cs" />
+     <Compile Include="Assets\Scripts\StageClearWrapper.cs" />
+     <Compile Include="Assets\Scripts\StageWrapper.cs" />
+     <Compile Include="Assets\Scripts\Tap_to_Start.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
+      <Project>{4F59591A-D0D9-275C-1F9C-14A68C7748AA}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

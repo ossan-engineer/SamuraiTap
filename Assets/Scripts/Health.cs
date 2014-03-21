@@ -6,31 +6,22 @@ public class Health : MonoBehaviour {
 	public int life = 2;
 	public int attack = 1;
 	public GameObject particlePrefab;
-	 // public bool isEnemy = true;
+	public bool isPlayer = false;
 
-	// スクリプトの上のほうがよいかな
-	// public AudioClip shotSE;
-	
 	// Use this for initialization
 	void OnCollisionEnter2D(Collision2D coll) {
 
 		 // SoundEffectsHelper.Instance.MakeExplosionSound();
 
 		if (coll.gameObject.tag != gameObject.tag && coll.gameObject.tag != "Wall") {
-			// coll.gameObject.SendMessage("ApplyDamage", 10);
 
 			Health health = coll.gameObject.GetComponent<Health>();
-			// Debug.Log(health);
 
 			SoundEffectsHelper.Instance.MakeExplosionSound();
 
-			// life -= 1;
 			life -= health.attack;
 
-			// TODO: LifeGaugeUI.SendMessage("updateLifeGauge");
-			// GameObject.Find("LifeGaugeUI").SendMessage("updateLifeGauge");
-
-			// Debug.Log (life);
+			GameObject.Find("LifeGaugeUI").SendMessage("UpdateLifeGauge");
 
 			if (life <= 0) {
 				Destroy(gameObject);
@@ -40,11 +31,35 @@ public class Health : MonoBehaviour {
 					Destroy(gameObject);
 				}
 
-				SoundEffectsHelper.Instance.MakeDestroySound();
+				if (gameObject.GetComponent<Boss>()) {
+					SoundEffectsHelper.Instance.MakeBossDestroySound();
+				} else {
+					SoundEffectsHelper.Instance.MakeDestroySound();
+				}
+
+				if (isPlayer) {
+					Debug.Log("Player Died");
+					if (gameObject.name == "Samurai_01") {
+						Debug.Log("Samurai Died");
+						if (GameObject.Find("Ninja_01")) {
+							Debug.Log("Ninja Activated");	
+							GameObject.Find("Ninja_01").GetComponent<Player>().enabled = true;
+						} else if (GameObject.Find("Monk_01")) {
+							Debug.Log("Monk Activated");	
+							GameObject.Find("Monk_01").GetComponent<Player>().enabled = true;
+						}
+					} else if (gameObject.name == "Ninja_01") {
+						Debug.Log("Ninja Died");
+						if (GameObject.Find("Monk_01")) {
+							Debug.Log("Monk Activated");	
+							GameObject.Find("Monk_01").GetComponent<Player>().enabled = true;
+						}
+					}
+				}
 			}
 		}
-
-		
+//		} else if (coll.gameObject.tag == "Wall") {
+//			SoundEffectsHelper.Instance.MakeNoDamageSound();
+//		}
 	}
-
 }

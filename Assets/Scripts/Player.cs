@@ -3,10 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public Vector2 power = new Vector2(0, 1000f); 
-//	bool initShot = false;
-//	float timer = 0;
-//	int waitingTime = 1;
+	public Vector2 power = new Vector2(0, 800f); 
+	// public bool isPlayer = true;
 	static Vector2 playerPosition;
 
 	void Update () {
@@ -22,17 +20,12 @@ public class Player : MonoBehaviour {
 
 		if(Input.GetButtonDown("Fire1")) {
 			rigidbody2D.AddForce(power);
+			// rigidbody2D.AddTorque(500f);
 			// Debug.Log("Fire");
 
-			// SoundEffectsHelper.Instance.MakePlayerShotSound();
+			SoundEffectsHelper.Instance.MakePlayerShotSound();
 		}
-
-		// playerPosition = transform.position;
-		// Debug.Log(playerPosition);
-	}
-
-	void Awake() {
-		Application.targetFrameRate = 60;
+	
 	}
 
 }

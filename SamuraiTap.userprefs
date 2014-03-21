@@ -1,12 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LifeGaugeUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Player.cs">
     <Files>
-      <File FileName="Assets/Scripts/ProgressGUI.cs" Line="11" Column="20" />
+      <File FileName="Assets/Scripts/Tap_to_Start.cs" Line="4" Column="21" />
+      <File FileName="Assets/Scripts/SceneController.cs" Line="26" Column="5" />
+      <File FileName="Assets/Scripts/Players.cs" Line="8" Column="3" />
+      <File FileName="Assets/Scripts/LifeGaugeUI.cs" Line="80" Column="49" />
+      <File FileName="Assets/Scripts/Health.cs" Line="29" Column="33" />
+      <File FileName="Assets/Scripts/GameOver.cs" Line="19" Column="18" />
+      <File FileName="Assets/Scripts/GameOverWrapper.cs" Line="12" Column="21" />
       <File FileName="Assets/Scripts/SoundEffectsHelper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/LifeGaugeUI.cs" Line="19" Column="57" />
-      <File FileName="Assets/Scripts/Health.cs" Line="25" Column="1" />
+      <File FileName="Assets/Scripts/Boss.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StageClear.cs" Line="14" Column="25" />
+      <File FileName="Assets/Scripts/Stage.cs" Line="14" Column="25" />
+      <File FileName="Assets/Scripts/StageClearWrapper.cs" Line="19" Column="6" />
+      <File FileName="Assets/Scripts/Monk.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StageWrapper.cs" Line="9" Column="21" />
+      <File FileName="Assets/Scripts/Player.cs" Line="22" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
