@@ -51,7 +51,7 @@ public class Health : MonoBehaviour {
 						}
 					} else if (gameObject.name == "Ninja_01") {
 						Debug.Log("Ninja Died");
-						if (GameObject.Find("Monk_01")) {
+						if (!GameObject.Find("Samurai_01") && GameObject.Find("Monk_01")) {
 							Debug.Log("Monk Activated");	
 							GameObject.Find("Monk_01").GetComponent<Player>().enabled = true;
 						}
