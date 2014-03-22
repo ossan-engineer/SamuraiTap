@@ -19,3 +19,7 @@
 * 仲間入れ替え機能
 * 必殺技
 * ボス固有ロジック
+
+## 関連リンク
+* [Web Playerでのテストプレイ](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/SamuraiTap.html)
+* [遊び方](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/index.html)
