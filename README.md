@@ -12,6 +12,8 @@
 → リファクタリングしたい
 * チュートリアルは[Webページ](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/index.html)として別途用意  
 → Unity内でWebViewを使って実装したい
+* ゲームバランスを維持したまま異なる解像度への対応  
+→ Unity PROが必要かも？ 事例研究したい
 
 ## 今後のUpdate
 * ステージ追加
