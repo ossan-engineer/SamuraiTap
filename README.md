@@ -8,10 +8,10 @@
 ## 苦労した所
 * 実機ビルドした時にGUI周りのレイアウトが崩れてしまい、やむをえずスプライトで実装  
 → NGUIで実装したい
-* チュートリアルは[Webページ](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/index.html)として別途用意  
-→ Unity内でWebViewを使って実装したい
 * 学習と実装が同時進行だったため、設計方針に一貫性がなく自分でも修正が大変  
 → リファクタリングしたい
+* チュートリアルは[Webページ](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/index.html)として別途用意  
+→ Unity内でWebViewを使って実装したい
 
 ## 今後のUpdate
 * ステージ追加
