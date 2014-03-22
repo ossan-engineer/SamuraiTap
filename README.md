@@ -18,8 +18,10 @@
 * 成長要素
 * パーティー編成
 * コンティニュー
+* スコア
 * 必殺技
 * ボス固有スキル
+* ソーシャル連携
 
 ## 関連リンク
 * [Web Playerでのテストプレイ](https://dl.dropboxusercontent.com/u/1311181/SamuraiTap/SamuraiTap.html)
