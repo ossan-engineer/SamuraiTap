@@ -28,7 +28,7 @@ public class LifeGaugeUI : MonoBehaviour {
 	
 	void OnGUI () {
 
-		if (screenHeight == 960) {
+//		if (screenHeight == 960) {
 		
 			float lifeGaugeUIHeight = screenHeight * 0.02f;
 			
@@ -44,22 +44,22 @@ public class LifeGaugeUI : MonoBehaviour {
 			GUI.EndGroup ();
 
 		
-		} else {
-
-			float lifeGaugeUIHeight = screenHeight * 0.02f;
-			
-			GUI.BeginGroup (new Rect(0, screenHeight * 0.065f, screenWidth, lifeGaugeUIHeight));
-			
-			GUI.DrawTexture (new Rect(0, 0, screenWidth, lifeGaugeUIHeight), bgImage, ScaleMode.StretchToFill, true, 0);
-
-			GUI.BeginGroup (new Rect(0, 0, playerEnergy * screenWidth, lifeGaugeUIHeight));
-			
-			GUI.DrawTexture (new Rect(0, 0, screenWidth, lifeGaugeUIHeight), fgImage, ScaleMode.StretchToFill, true, 0);
-			
-			GUI.EndGroup ();
-			GUI.EndGroup ();
-		
-		}
+//		} else {
+//
+//			float lifeGaugeUIHeight = screenHeight * 0.02f;
+//			
+//			GUI.BeginGroup (new Rect(0, screenHeight * 0.065f, screenWidth, lifeGaugeUIHeight));
+//			
+//			GUI.DrawTexture (new Rect(0, 0, screenWidth, lifeGaugeUIHeight), bgImage, ScaleMode.StretchToFill, true, 0);
+//
+//			GUI.BeginGroup (new Rect(0, 0, playerEnergy * screenWidth, lifeGaugeUIHeight));
+//			
+//			GUI.DrawTexture (new Rect(0, 0, screenWidth, lifeGaugeUIHeight), fgImage, ScaleMode.StretchToFill, true, 0);
+//			
+//			GUI.EndGroup ();
+//			GUI.EndGroup ();
+//		
+//		}
 	}
 	
 	void Update () {
