@@ -37,23 +37,62 @@ public class LifeGaugeUI : MonoBehaviour {
 	}
 	
 	void Start () {
-		if (backgroundImage != null && bgImageTexture != null) {
-			Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
-			backgroundImage.sprite = bgSprite;
-			backgroundImage.color = Color.white;
-			backgroundImage.type = Image.Type.Simple;
+		Debug.Log("LifeGaugeUI Start: 初期化開始");
+		
+		if (backgroundImage == null) {
+			Debug.LogError("backgroundImageがnullです。Inspectorで設定してください。");
+		} else {
+			Debug.Log("backgroundImage: " + backgroundImage.name);
+			
+			if (bgImageTexture == null) {
+				Debug.LogError("bgImageTextureがnullです。Inspectorで設定してください。");
+				backgroundImage.color = Color.black;
+			} else {
+				Debug.Log("bgImageTexture: " + bgImageTexture.name + " サイズ: " + bgImageTexture.width + "x" + bgImageTexture.height);
+				try {
+					Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
+					backgroundImage.sprite = bgSprite;
+					backgroundImage.color = Color.white;
+					backgroundImage.type = Image.Type.Simple;
+					Debug.Log("背景画像の設定完了");
+				} catch (System.Exception e) {
+					Debug.LogError("背景画像の設定中にエラー: " + e.Message);
+				}
+			}
 		}
 		
-		if (fillImage != null && fgImageTexture != null) {
-			Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
-			fillImage.sprite = fgSprite;
-			fillImage.color = Color.white;
-			fillImage.type = Image.Type.Filled;  // 塗りつぶしタイプに設定
-			fillImage.fillMethod = Image.FillMethod.Horizontal;  // 水平方向の塗りつぶし
-			fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;  // 左から右へ塗りつぶし
+		if (fillImage == null) {
+			Debug.LogError("fillImageがnullです。Inspectorで設定してください。");
+		} else {
+			Debug.Log("fillImage: " + fillImage.name);
+			
+			if (fgImageTexture == null) {
+				Debug.LogError("fgImageTextureがnullです。Inspectorで設定してください。");
+				fillImage.color = Color.red;
+			} else {
+				Debug.Log("fgImageTexture: " + fgImageTexture.name + " サイズ: " + fgImageTexture.width + "x" + fgImageTexture.height);
+				try {
+					Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
+					fillImage.sprite = fgSprite;
+					fillImage.color = Color.red; // 赤色に設定して見やすくする
+					fillImage.type = Image.Type.Filled;
+					fillImage.fillMethod = Image.FillMethod.Horizontal;
+					fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+					Debug.Log("塗りつぶし画像の設定完了");
+				} catch (System.Exception e) {
+					Debug.LogError("塗りつぶし画像の設定中にエラー: " + e.Message);
+				}
+			}
+		}
+		
+		if (fillRectTransform == null) {
+			Debug.LogError("fillRectTransformがnullです。");
+		} else {
+			Debug.Log("fillRectTransform サイズ: " + fillRectTransform.rect.width + "x" + fillRectTransform.rect.height);
 		}
 		
 		UpdateLifeGauge();
+		Debug.Log("LifeGaugeUI Start: 初期化完了");
 	}
 	
 	
