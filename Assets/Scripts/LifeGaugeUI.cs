@@ -98,85 +98,146 @@ public class LifeGaugeUI : MonoBehaviour {
 	}
 
 	void UpdateLifeGauge () {
-		playerEnergy = 0;
-		enemyEnergy = 0;
-		totalEnergy = 0;
-		
-		players = GameObject.FindGameObjectsWithTag("Player");
-		foreach (GameObject player in players) {
-			playerEnergy += player.GetComponent<Health>().life;
-		}
-		
-		enemies = GameObject.FindGameObjectsWithTag("Enemy");
-		foreach (GameObject enemy in enemies) {
-			enemyEnergy += enemy.GetComponent<Health>().life;
-		}
-		
-		totalEnergy = playerEnergy + enemyEnergy;
-
-		Debug.Log("Player" + playerEnergy);
-		Debug.Log("Enemy" + enemyEnergy);
-		Debug.Log("Total" + totalEnergy);
-		
-		if (totalEnergy > 0) {
-			playerEnergy = playerEnergy / totalEnergy;
-		} else {
+		try {
 			playerEnergy = 0;
-		}
+			enemyEnergy = 0;
+			totalEnergy = 0;
+			
+			players = GameObject.FindGameObjectsWithTag("Player");
+			if (players != null && players.Length > 0) {
+				foreach (GameObject player in players) {
+					if (player != null) {
+						Health health = player.GetComponent<Health>();
+						if (health != null) {
+							playerEnergy += health.life;
+						}
+					}
+				}
+			}
+			
+			enemies = GameObject.FindGameObjectsWithTag("Enemy");
+			if (enemies != null && enemies.Length > 0) {
+				foreach (GameObject enemy in enemies) {
+					if (enemy != null) {
+						Health health = enemy.GetComponent<Health>();
+						if (health != null) {
+							enemyEnergy += health.life;
+						}
+					}
+				}
+			}
+			
+			totalEnergy = playerEnergy + enemyEnergy;
 
-		if (fillImage != null) {
-			fillImage.fillAmount = playerEnergy;
-		}
+			Debug.Log("Player: " + playerEnergy);
+			Debug.Log("Enemy: " + enemyEnergy);
+			Debug.Log("Total: " + totalEnergy);
+			
+			if (totalEnergy > 0) {
+				playerEnergy = playerEnergy / totalEnergy;
+			} else {
+				playerEnergy = 0;
+			}
 
-		CheckGameState();
+			if (fillImage != null) {
+				fillImage.fillAmount = playerEnergy;
+			}
+
+			CheckGameState();
+		} catch (System.Exception e) {
+			Debug.LogError("UpdateLifeGauge中にエラーが発生しました: " + e.Message + "\n" + e.StackTrace);
+		}
 	}
 
 	void CheckGameState() {
-		if (enemyEnergy <= 0) {
-			if (sceneController != null) {
-				sceneController.isStageEnd = true;
-			}
-
-			if (mainCameraAudio != null) {
-				mainCameraAudio.Stop();
-			}
-
-			foreach (GameObject player in players) {
-				Player playerComponent = player.GetComponent<Player>();
-				if (playerComponent != null) {
-					playerComponent.enabled = false;
-				}
-			}
-
-			if (stageClearWrapper != null) {
-				StageClearWrapper wrapper = stageClearWrapper.GetComponent<StageClearWrapper>();
-				if (wrapper != null) {
-					wrapper.BlowOff();
+		try {
+			if (enemyEnergy <= 0) {
+				Debug.Log("敵のエネルギーがゼロになりました - ステージクリア");
+				
+				if (sceneController != null) {
+					sceneController.isStageEnd = true;
+					Debug.Log("SceneController.isStageEndをtrueに設定しました");
 				} else {
-					stageClearWrapper.SendMessage("BlowOff", SendMessageOptions.DontRequireReceiver);
+					Debug.LogWarning("sceneControllerがnullです");
 				}
-			}
 
-			if (monkObject != null) {
-				Monk monkComponent = monkObject.GetComponent<Monk>();
-				if (monkComponent != null) {
-					monkComponent.enabled = false;
-				}
-			}
-		} 
-		else if (playerEnergy <= 0) {
-			if (mainCameraAudio != null) {
-				mainCameraAudio.Stop();
-			}
-
-			if (gameOverWrapper != null) {
-				GameOverWrapper wrapper = gameOverWrapper.GetComponent<GameOverWrapper>();
-				if (wrapper != null) {
-					wrapper.BlowOff();
+				if (mainCameraAudio != null) {
+					mainCameraAudio.Stop();
+					Debug.Log("メインカメラのオーディオを停止しました");
 				} else {
-					gameOverWrapper.SendMessage("BlowOff", SendMessageOptions.DontRequireReceiver);
+					Debug.LogWarning("mainCameraAudioがnullです");
+				}
+
+				if (players != null && players.Length > 0) {
+					foreach (GameObject player in players) {
+						if (player != null) {
+							Player playerComponent = player.GetComponent<Player>();
+							if (playerComponent != null) {
+								playerComponent.enabled = false;
+								Debug.Log("プレイヤーコンポーネントを無効化しました: " + player.name);
+							}
+						}
+					}
+				}
+
+				if (stageClearWrapper != null) {
+					try {
+						StageClearWrapper wrapper = stageClearWrapper.GetComponent<StageClearWrapper>();
+						if (wrapper != null) {
+							wrapper.BlowOff();
+							Debug.Log("StageClearWrapper.BlowOff()を実行しました");
+						} else {
+							Debug.LogWarning("StageClearWrapperコンポーネントが見つかりません。SendMessageを使用します。");
+							stageClearWrapper.SendMessage("BlowOff", SendMessageOptions.DontRequireReceiver);
+						}
+					} catch (System.Exception e) {
+						Debug.LogError("StageClearWrapperの処理中にエラーが発生しました: " + e.Message);
+					}
+				} else {
+					Debug.LogWarning("stageClearWrapperがnullです");
+				}
+
+				if (monkObject != null) {
+					try {
+						Monk monkComponent = monkObject.GetComponent<Monk>();
+						if (monkComponent != null) {
+							monkComponent.enabled = false;
+							Debug.Log("Monkコンポーネントを無効化しました");
+						}
+					} catch (System.Exception e) {
+						Debug.LogError("Monkコンポーネントの処理中にエラーが発生しました: " + e.Message);
+					}
+				}
+			} 
+			else if (playerEnergy <= 0) {
+				Debug.Log("プレイヤーのエネルギーがゼロになりました - ゲームオーバー");
+				
+				if (mainCameraAudio != null) {
+					mainCameraAudio.Stop();
+					Debug.Log("メインカメラのオーディオを停止しました");
+				} else {
+					Debug.LogWarning("mainCameraAudioがnullです");
+				}
+
+				if (gameOverWrapper != null) {
+					try {
+						GameOverWrapper wrapper = gameOverWrapper.GetComponent<GameOverWrapper>();
+						if (wrapper != null) {
+							wrapper.BlowOff();
+							Debug.Log("GameOverWrapper.BlowOff()を実行しました");
+						} else {
+							Debug.LogWarning("GameOverWrapperコンポーネントが見つかりません。SendMessageを使用します。");
+							gameOverWrapper.SendMessage("BlowOff", SendMessageOptions.DontRequireReceiver);
+						}
+					} catch (System.Exception e) {
+						Debug.LogError("GameOverWrapperの処理中にエラーが発生しました: " + e.Message);
+					}
+				} else {
+					Debug.LogWarning("gameOverWrapperがnullです");
 				}
 			}
+		} catch (System.Exception e) {
+			Debug.LogError("CheckGameState中にエラーが発生しました: " + e.Message + "\n" + e.StackTrace);
 		}
 	}
 
