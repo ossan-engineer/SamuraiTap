@@ -37,6 +37,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI; // 追加: UI.ImageとUI.Textのために必要
 #endregion
 
 /// <summary>
@@ -699,10 +700,10 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//set tempColor and base fromColor:
-		if(target.GetComponent<GUITexture>()){
-			tempColor=fromColor=target.guiTexture.color;	
-		}else if(target.GetComponent<GUIText>()){
-			tempColor=fromColor=target.guiText.material.color;
+		if(target.GetComponent<Image>()){
+			tempColor=fromColor=target.GetComponent<Image>().color;	
+		}else if(target.GetComponent<Text>()){
+			tempColor=fromColor=target.GetComponent<Text>().material.color;
 		}else if(target.renderer){
 			tempColor=fromColor=target.renderer.material.color;
 		}else if(target.light){
@@ -737,10 +738,10 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply fromColor:
-		if(target.GetComponent<GUITexture>()){
-			target.guiTexture.color=fromColor;	
-		}else if(target.GetComponent<GUIText>()){
-			target.guiText.material.color=fromColor;
+		if(target.GetComponent<Image>()){
+			target.GetComponent<Image>().color=fromColor;	
+		}else if(target.GetComponent<Text>()){
+			target.GetComponent<Text>().material.color=fromColor;
 		}else if(target.renderer){
 			target.renderer.material.color=fromColor;
 		}else if(target.light){
@@ -3326,12 +3327,12 @@ public class iTween : MonoBehaviour{
 		//colors = new Color[3];
 		
 		//from and init to values:
-		if(GetComponent<GUITexture>()){
+		if(GetComponent<Image>()){
 			colors = new Color[1,3];
-			colors[0,0] = colors[0,1] = guiTexture.color;
-		}else if(GetComponent<GUIText>()){
+			colors[0,0] = colors[0,1] = GetComponent<Image>().color;
+		}else if(GetComponent<Text>()){
 			colors = new Color[1,3];
-			colors[0,0] = colors[0,1] = guiText.material.color;
+			colors[0,0] = colors[0,1] = GetComponent<Text>().material.color;
 		}else if(renderer){
 			colors = new Color[renderer.materials.Length,3];
 			for (int i = 0; i < renderer.materials.Length; i++) {
@@ -4102,12 +4103,12 @@ public class iTween : MonoBehaviour{
 		*/
 		
 		//apply:
-		if(GetComponent<GUITexture>()){
+		if(GetComponent<Image>()){
 			//guiTexture.color=colors[2];
-			guiTexture.color=colors[0,2];
-		}else if(GetComponent<GUIText>()){
+			GetComponent<Image>().color=colors[0,2];
+		}else if(GetComponent<Text>()){
 			//guiText.material.color=colors[2];
-			guiText.material.color=colors[0,2];
+			GetComponent<Text>().material.color=colors[0,2];
 		}else if(renderer){
 			//renderer.material.color=colors[2];
 			for (int i = 0; i < colors.GetLength(0); i++) {
@@ -4120,12 +4121,12 @@ public class iTween : MonoBehaviour{
 		
 		//dial in:
 		if(percentage==1){
-			if(GetComponent<GUITexture>()){
+			if(GetComponent<Image>()){
 				//guiTexture.color=colors[1];
-				guiTexture.color=colors[0,1];
-			}else if(GetComponent<GUIText>()){
+				GetComponent<Image>().color=colors[0,1];
+			}else if(GetComponent<Text>()){
 				//guiText.material.color=colors[1];
-				guiText.material.color=colors[0,1];
+				GetComponent<Text>().material.color=colors[0,1];
 			}else if(renderer){
 				//renderer.material.color=colors[1];	
 				for (int i = 0; i < colors.GetLength(0); i++) {
@@ -4848,10 +4849,10 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//init values:
-		if(target.GetComponent<GUITexture>()){
-			colors[0] = colors[1] = target.guiTexture.color;
-		}else if(target.GetComponent<GUIText>()){
-			colors[0] = colors[1] = target.guiText.material.color;
+		if(target.GetComponent<Image>()){
+			colors[0] = colors[1] = target.GetComponent<Image>().color;
+		}else if(target.GetComponent<Text>()){
+			colors[0] = colors[1] = target.GetComponent<Text>().material.color;
 		}else if(target.renderer){
 			colors[0] = colors[1] = target.renderer.material.color;
 		}else if(target.light){
@@ -4883,10 +4884,10 @@ public class iTween : MonoBehaviour{
 		colors[3].a=Mathf.SmoothDamp(colors[0].a,colors[1].a,ref colors[2].a,time);
 				
 		//apply:
-		if(target.GetComponent<GUITexture>()){
-			target.guiTexture.color=colors[3];
-		}else if(target.GetComponent<GUIText>()){
-			target.guiText.material.color=colors[3];
+		if(target.GetComponent<Image>()){
+			target.GetComponent<Image>().color=colors[3];
+		}else if(target.GetComponent<Text>()){
+			target.GetComponent<Text>().material.color=colors[3];
 		}else if(target.renderer){
 			target.renderer.material.color=colors[3];
 		}else if(target.light){
@@ -6012,7 +6013,7 @@ public class iTween : MonoBehaviour{
 	/// </param>
 	public static void CameraFadeSwap(Texture2D texture){
 		if(cameraFade){
-			cameraFade.guiTexture.texture=texture;
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
 		}
 	}
 	
@@ -6035,9 +6036,10 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,depth);
-			cameraFade.AddComponent<GUITexture>();
-			cameraFade.guiTexture.texture=texture;
-			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
 			return cameraFade;
 		}
 	}
@@ -6058,9 +6060,10 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,Defaults.cameraFadeDepth);
-			cameraFade.AddComponent<GUITexture>();
-			cameraFade.guiTexture.texture=texture;
-			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
 			return cameraFade;
 		}
 	}
@@ -6078,9 +6081,11 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,Defaults.cameraFadeDepth);
-			cameraFade.AddComponent<GUITexture>();
-			cameraFade.guiTexture.texture=CameraTexture(Color.black);
-			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			Texture2D blackTexture = CameraTexture(Color.black);
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(blackTexture, new Rect(0, 0, blackTexture.width, blackTexture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
 			return cameraFade;
 		}
 	}	
@@ -7500,4 +7505,4 @@ public class iTween : MonoBehaviour{
 	public static void tweenCount(GameObject target, Hashtable args){Debug.LogError("iTween Error: tweenCount() has been deprecated. Please investigate Count().");}
 	*/
 	#endregion
-} 
+}                        
