@@ -6,7 +6,7 @@ public class StageClearWrapper : MonoBehaviour {
 	// public bool isStageClear = false;
 
 	// Use this for initialization
-	void BlowOff () {
+	public void BlowOff () {
 		Hashtable hTable = new Hashtable();
 		hTable.Add ("y", 8f);
 		hTable.Add ("easeType", "easeOutQuad");
