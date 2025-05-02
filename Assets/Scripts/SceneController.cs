@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement; // 新しいシーン管理用の名前空間を追加
 using System.Collections;
 
 public class SceneController : MonoBehaviour {
@@ -27,7 +28,8 @@ public class SceneController : MonoBehaviour {
 			timer += Time.deltaTime;
 			if(timer > waitingTime){
 				if (Input.GetButtonDown("Fire1")) {
-					Application.LoadLevel(nextStage);
+					// Application.LoadLevel(nextStage); // 非推奨APIを削除
+					SceneManager.LoadScene(nextStage); // 新しいシーン読み込みAPIを使用
 				}
 //				// timer = 0;
 			}
@@ -44,13 +46,13 @@ public class SceneController : MonoBehaviour {
 
 //	IEnumerator StageClear() {
 //		yield return new WaitForSeconds(2.5f);
-//		Application.LoadLevel(nextStage);
+//		// Application.LoadLevel(nextStage); // 非推奨APIを削除
 //		Debug.Log("Cleared");
 //	}
 	
 //	IEnumerator GameOver () {
 //		yield return new WaitForSeconds(2);
-//		// Application.LoadLevel("Title");
+//		// Application.LoadLevel("Title"); // 非推奨APIを削除
 //		Debug.Log("GameOver");
 //	}
 }
