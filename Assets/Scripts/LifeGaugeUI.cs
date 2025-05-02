@@ -25,6 +25,8 @@ public class LifeGaugeUI : MonoBehaviour {
 	private GameObject monkObject;
 
 	void Awake() {
+		Debug.Log("LifeGaugeUI Awake: 初期化開始");
+		
 		GameObject mainCamera = GameObject.FindWithTag("MainCamera");
 		if (mainCamera != null) {
 			sceneController = mainCamera.GetComponent<SceneController>();
@@ -34,15 +36,69 @@ public class LifeGaugeUI : MonoBehaviour {
 		stageClearWrapper = GameObject.Find("StageClearWrapper");
 		gameOverWrapper = GameObject.Find("GameOverWrapper");
 		monkObject = GameObject.Find("Monk_01");
+		
+		if (bgImageTexture == null) {
+			Debug.LogWarning("bgImageTextureがnullです。Resources/Imagesから読み込みます。");
+			bgImageTexture = Resources.Load<Texture2D>("Images/Blue");
+			
+			if (bgImageTexture == null) {
+				Debug.LogWarning("Resources/Images/Blueが見つかりません。Assets/Imagesから読み込みます。");
+				string[] bgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Blue.png", System.IO.SearchOption.AllDirectories);
+				if (bgFiles.Length > 0) {
+					string path = bgFiles[0].Replace(Application.dataPath, "Assets");
+					bgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+					Debug.Log("背景テクスチャを読み込みました: " + path);
+				}
+			}
+		}
+		
+		if (fgImageTexture == null) {
+			Debug.LogWarning("fgImageTextureがnullです。Resources/Imagesから読み込みます。");
+			fgImageTexture = Resources.Load<Texture2D>("Images/Red");
+			
+			if (fgImageTexture == null) {
+				Debug.LogWarning("Resources/Images/Redが見つかりません。Assets/Imagesから読み込みます。");
+				string[] fgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Red.png", System.IO.SearchOption.AllDirectories);
+				if (fgFiles.Length > 0) {
+					string path = fgFiles[0].Replace(Application.dataPath, "Assets");
+					fgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+					Debug.Log("前景テクスチャを読み込みました: " + path);
+				}
+			}
+		}
+		
+		Debug.Log("LifeGaugeUI Awake: 初期化完了");
 	}
 	
 	void Start () {
 		Debug.Log("LifeGaugeUI Start: 初期化開始");
 		
+		Canvas canvas = GetComponent<Canvas>();
+		if (canvas == null) {
+			Debug.LogWarning("Canvasが見つかりません。親オブジェクトに追加します。");
+			canvas = gameObject.AddComponent<Canvas>();
+			canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+			gameObject.AddComponent<CanvasScaler>();
+			gameObject.AddComponent<GraphicRaycaster>();
+		}
+		
+		GameObject lifeGaugePanel = transform.Find("LifeGaugePanel")?.gameObject;
+		if (lifeGaugePanel == null) {
+			Debug.LogWarning("LifeGaugePanelが見つかりません。新しく作成します。");
+			lifeGaugePanel = new GameObject("LifeGaugePanel");
+			lifeGaugePanel.transform.SetParent(transform);
+			
+			RectTransform panelRect = lifeGaugePanel.AddComponent<RectTransform>();
+			panelRect.anchorMin = new Vector2(0.1f, 0.9f);
+			panelRect.anchorMax = new Vector2(0.9f, 0.95f);
+			panelRect.offsetMin = Vector2.zero;
+			panelRect.offsetMax = Vector2.zero;
+		}
+		
 		if (backgroundImage == null) {
 			Debug.LogWarning("backgroundImageがnullです。自動的に作成します。");
 			GameObject bgObj = new GameObject("BackgroundImage");
-			bgObj.transform.SetParent(transform);
+			bgObj.transform.SetParent(lifeGaugePanel.transform);
 			backgroundImage = bgObj.AddComponent<Image>();
 			RectTransform bgRect = bgObj.GetComponent<RectTransform>();
 			bgRect.anchorMin = new Vector2(0, 0);
@@ -53,7 +109,7 @@ public class LifeGaugeUI : MonoBehaviour {
 		
 		Debug.Log("backgroundImage: " + backgroundImage.name);
 		
-		backgroundImage.color = Color.black;
+		backgroundImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
 		backgroundImage.raycastTarget = false;
 		
 		if (bgImageTexture != null) {
@@ -62,9 +118,11 @@ public class LifeGaugeUI : MonoBehaviour {
 				Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
 				backgroundImage.sprite = bgSprite;
 				backgroundImage.type = Image.Type.Simple;
+				backgroundImage.color = Color.white; // テクスチャを表示するために色を白に設定
 				Debug.Log("背景画像の設定完了");
 			} catch (System.Exception e) {
 				Debug.LogError("背景画像の設定中にエラー: " + e.Message);
+				backgroundImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
 			}
 		} else {
 			Debug.LogWarning("bgImageTextureがnullです。単色で表示します。");
@@ -74,18 +132,18 @@ public class LifeGaugeUI : MonoBehaviour {
 		if (fillImage == null) {
 			Debug.LogWarning("fillImageがnullです。自動的に作成します。");
 			GameObject fillObj = new GameObject("FillImage");
-			fillObj.transform.SetParent(transform);
+			fillObj.transform.SetParent(lifeGaugePanel.transform);
 			fillImage = fillObj.AddComponent<Image>();
 			fillRectTransform = fillObj.GetComponent<RectTransform>();
 			fillRectTransform.anchorMin = new Vector2(0, 0);
 			fillRectTransform.anchorMax = new Vector2(1, 1);
-			fillRectTransform.offsetMin = Vector2.zero;
-			fillRectTransform.offsetMax = Vector2.zero;
+			fillRectTransform.offsetMin = new Vector2(2, 2);
+			fillRectTransform.offsetMax = new Vector2(-2, -2);
 		}
 		
 		Debug.Log("fillImage: " + fillImage.name);
 		
-		fillImage.color = Color.red;
+		fillImage.color = new Color(1f, 0.2f, 0.2f, 1f);
 		fillImage.raycastTarget = false;
 		fillImage.type = Image.Type.Filled;
 		fillImage.fillMethod = Image.FillMethod.Horizontal;
@@ -96,15 +154,18 @@ public class LifeGaugeUI : MonoBehaviour {
 			try {
 				Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
 				fillImage.sprite = fgSprite;
+				fillImage.color = Color.white; // テクスチャを表示するために色を白に設定
 				Debug.Log("塗りつぶし画像の設定完了");
 			} catch (System.Exception e) {
 				Debug.LogError("塗りつぶし画像の設定中にエラー: " + e.Message);
+				fillImage.color = new Color(1f, 0.2f, 0.2f, 1f);
 			}
 		} else {
 			Debug.LogWarning("fgImageTextureがnullです。単色で表示します。");
 			fillImage.color = new Color(1f, 0.2f, 0.2f, 1f);
 		}
 		
+		// RectTransformの確認
 		if (fillRectTransform == null) {
 			Debug.LogWarning("fillRectTransformがnullです。fillImageから取得します。");
 			fillRectTransform = fillImage.GetComponent<RectTransform>();
