@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 //		}
 
 		if(Input.GetButtonDown("Fire1")) {
-			rigidbody2D.AddForce(power);
+			GetComponent<Rigidbody2D>().AddForce(power);
 			// rigidbody2D.AddTorque(500f);
 			// Debug.Log("Fire");
 

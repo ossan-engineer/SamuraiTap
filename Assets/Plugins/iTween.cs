@@ -37,6 +37,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+using UnityEngine.UI; // 追加: UI.ImageとUI.Textのために必要
+#endif
 #endregion
 
 /// <summary>
@@ -699,14 +702,23 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//set tempColor and base fromColor:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(target.GetComponent<Image>()){
+			tempColor=fromColor=target.GetComponent<Image>().color;	
+		}else if(target.GetComponent<Text>()){
+			tempColor=fromColor=target.GetComponent<Text>().material.color;
+		}
+#else
 		if(target.GetComponent<GUITexture>()){
 			tempColor=fromColor=target.guiTexture.color;	
 		}else if(target.GetComponent<GUIText>()){
 			tempColor=fromColor=target.guiText.material.color;
-		}else if(target.renderer){
-			tempColor=fromColor=target.renderer.material.color;
-		}else if(target.light){
-			tempColor=fromColor=target.light.color;
+		}
+#endif
+		else if(target.GetComponent<Renderer>()){
+			tempColor=fromColor=target.GetComponent<Renderer>().material.color;
+		}else if(target.GetComponent<Light>()){
+			tempColor=fromColor=target.GetComponent<Light>().color;
 		}
 		
 		//set augmented fromColor:
@@ -737,14 +749,23 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply fromColor:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(target.GetComponent<Image>()){
+			target.GetComponent<Image>().color=fromColor;	
+		}else if(target.GetComponent<Text>()){
+			target.GetComponent<Text>().material.color=fromColor;
+		}
+#else
 		if(target.GetComponent<GUITexture>()){
 			target.guiTexture.color=fromColor;	
 		}else if(target.GetComponent<GUIText>()){
 			target.guiText.material.color=fromColor;
-		}else if(target.renderer){
-			target.renderer.material.color=fromColor;
-		}else if(target.light){
-			target.light.color=fromColor;
+		}
+#endif
+		else if(target.GetComponent<Renderer>()){
+			target.GetComponent<Renderer>().material.color=fromColor;
+		}else if(target.GetComponent<Light>()){
+			target.GetComponent<Light>().color=fromColor;
 		}
 		
 		//set new color arg:
@@ -942,7 +963,7 @@ public class iTween : MonoBehaviour{
 			tempAudioSource=(AudioSource)args["audiosource"];
 		}else{
 			if(target.GetComponent<AudioSource>()){
-				tempAudioSource=target.audio;
+				tempAudioSource=target.GetComponent<AudioSource>();
 			}else{
 				//throw error if no AudioSource is available:
 				Debug.LogError("iTween Error: AudioFrom requires an AudioSource.");
@@ -3326,22 +3347,33 @@ public class iTween : MonoBehaviour{
 		//colors = new Color[3];
 		
 		//from and init to values:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(GetComponent<Image>()){
+			colors = new Color[1,3];
+			colors[0,0] = colors[0,1] = GetComponent<Image>().color;
+		}else if(GetComponent<Text>()){
+			colors = new Color[1,3];
+			colors[0,0] = colors[0,1] = GetComponent<Text>().material.color;
+		}
+#else
 		if(GetComponent<GUITexture>()){
 			colors = new Color[1,3];
 			colors[0,0] = colors[0,1] = guiTexture.color;
 		}else if(GetComponent<GUIText>()){
 			colors = new Color[1,3];
 			colors[0,0] = colors[0,1] = guiText.material.color;
-		}else if(renderer){
-			colors = new Color[renderer.materials.Length,3];
-			for (int i = 0; i < renderer.materials.Length; i++) {
-				colors[i,0]=renderer.materials[i].GetColor(namedcolorvalue.ToString());
-				colors[i,1]=renderer.materials[i].GetColor(namedcolorvalue.ToString());
+		}
+#endif
+		else if(GetComponent<Renderer>()){
+			colors = new Color[GetComponent<Renderer>().materials.Length,3];
+			for (int i = 0; i < GetComponent<Renderer>().materials.Length; i++) {
+				colors[i,0]=GetComponent<Renderer>().materials[i].GetColor(namedcolorvalue.ToString());
+				colors[i,1]=GetComponent<Renderer>().materials[i].GetColor(namedcolorvalue.ToString());
 			}
 			//colors[0] = colors[1] = renderer.material.color;	
-		}else if(light){
+		}else if(GetComponent<Light>()){
 			colors = new Color[1,3];
-			colors[0,0] = colors[0,1] = light.color;	
+			colors[0,0] = colors[0,1] = GetComponent<Light>().color;	
 		}else{
 			colors = new Color[1,3]; //empty placeholder incase the GO is perhaps an empty holder or something similar
 		}
@@ -3402,7 +3434,7 @@ public class iTween : MonoBehaviour{
 			audioSource=(AudioSource)tweenArguments["audiosource"];
 		}else{
 			if(GetComponent<AudioSource>()){
-				audioSource=audio;
+				audioSource=GetComponent<AudioSource>();
 			}else{
 				//throw error if no AudioSource is available:
 				Debug.LogError("iTween Error: AudioTo requires an AudioSource.");
@@ -3428,11 +3460,11 @@ public class iTween : MonoBehaviour{
 			audioSource=(AudioSource)tweenArguments["audiosource"];
 		}else{
 			if(GetComponent<AudioSource>()){
-				audioSource=audio;
+				audioSource=GetComponent<AudioSource>();
 			}else{
 				//add and populate AudioSource if one doesn't exist:
 				gameObject.AddComponent<AudioSource>();
-				audioSource=audio;
+				audioSource=GetComponent<AudioSource>();
 				audioSource.playOnAwake=false;
 				
 			}
@@ -4102,38 +4134,60 @@ public class iTween : MonoBehaviour{
 		*/
 		
 		//apply:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(GetComponent<Image>()){
+			//guiTexture.color=colors[2];
+			GetComponent<Image>().color=colors[0,2];
+		}else if(GetComponent<Text>()){
+			//guiText.material.color=colors[2];
+			GetComponent<Text>().material.color=colors[0,2];
+		}
+#else
 		if(GetComponent<GUITexture>()){
 			//guiTexture.color=colors[2];
 			guiTexture.color=colors[0,2];
 		}else if(GetComponent<GUIText>()){
 			//guiText.material.color=colors[2];
 			guiText.material.color=colors[0,2];
-		}else if(renderer){
+		}
+#endif
+		else if(GetComponent<Renderer>()){
 			//renderer.material.color=colors[2];
 			for (int i = 0; i < colors.GetLength(0); i++) {
-				renderer.materials[i].SetColor(namedcolorvalue.ToString(),colors[i,2]);
+				GetComponent<Renderer>().materials[i].SetColor(namedcolorvalue.ToString(),colors[i,2]);
 			}
-		}else if(light){
+		}else if(GetComponent<Light>()){
 			//light.color=colors[2];	
-			light.color=colors[0,2];
+			GetComponent<Light>().color=colors[0,2];
 		}
 		
 		//dial in:
 		if(percentage==1){
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+			if(GetComponent<Image>()){
+				//guiTexture.color=colors[1];
+				GetComponent<Image>().color=colors[0,1];
+			}else if(GetComponent<Text>()){
+				//guiText.material.color=colors[1];
+				GetComponent<Text>().material.color=colors[0,1];
+			}
+#else
 			if(GetComponent<GUITexture>()){
 				//guiTexture.color=colors[1];
 				guiTexture.color=colors[0,1];
 			}else if(GetComponent<GUIText>()){
 				//guiText.material.color=colors[1];
 				guiText.material.color=colors[0,1];
-			}else if(renderer){
+			}
+#endif
+			else if(GetComponent<Renderer>()){
 				//renderer.material.color=colors[1];	
 				for (int i = 0; i < colors.GetLength(0); i++) {
-					renderer.materials[i].SetColor(namedcolorvalue.ToString(),colors[i,1]);
+					GetComponent<Renderer>().materials[i].SetColor(namedcolorvalue.ToString(),colors[i,1]);
 				}
-			}else if(light){
+			}else if(GetComponent<Light>()){
 				//light.color=colors[1];	
-				light.color=colors[0,1];
+				GetComponent<Light>().color=colors[0,1];
 			}			
 		}
 	}	
@@ -4192,7 +4246,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.position;
 		if(physics){
 			thisTransform.position=preUpdate;
-			rigidbody.MovePosition(postUpdate);
+			GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}
 	
@@ -4226,7 +4280,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.position;
 		if(physics){
 			thisTransform.position=preUpdate;
-			rigidbody.MovePosition(postUpdate);
+			GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}	
 	
@@ -4268,7 +4322,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.position;
 		if(physics){
 			thisTransform.position=preUpdate;
-			rigidbody.MovePosition(postUpdate);
+			GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}	
 	
@@ -4329,7 +4383,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.eulerAngles;
 		if(physics){
 			thisTransform.eulerAngles=preUpdate;
-			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
+			GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}
 	
@@ -4351,7 +4405,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.eulerAngles;
 		if(physics){
 			thisTransform.eulerAngles=preUpdate;
-			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
+			GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(postUpdate));
 		}		
 	}	
 	
@@ -4407,7 +4461,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.position;
 		if(physics){
 			thisTransform.position=preUpdate;
-			rigidbody.MovePosition(postUpdate);
+			GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}	
 	
@@ -4454,7 +4508,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.eulerAngles;
 		if(physics){
 			thisTransform.eulerAngles=preUpdate;
-			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
+			GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}		
 	
@@ -4508,7 +4562,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.position;
 		if(physics){
 			thisTransform.position=preUpdate;
-			rigidbody.MovePosition(postUpdate);
+			GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}		
 	
@@ -4549,7 +4603,7 @@ public class iTween : MonoBehaviour{
 		postUpdate=thisTransform.eulerAngles;
 		if(physics){
 			thisTransform.eulerAngles=preUpdate;
-			rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
+			GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}	
 	
@@ -4848,14 +4902,23 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//init values:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(target.GetComponent<Image>()){
+			colors[0] = colors[1] = target.GetComponent<Image>().color;
+		}else if(target.GetComponent<Text>()){
+			colors[0] = colors[1] = target.GetComponent<Text>().material.color;
+		}
+#else
 		if(target.GetComponent<GUITexture>()){
 			colors[0] = colors[1] = target.guiTexture.color;
 		}else if(target.GetComponent<GUIText>()){
 			colors[0] = colors[1] = target.guiText.material.color;
-		}else if(target.renderer){
-			colors[0] = colors[1] = target.renderer.material.color;
-		}else if(target.light){
-			colors[0] = colors[1] = target.light.color;	
+		}
+#endif
+		else if(target.GetComponent<Renderer>()){
+			colors[0] = colors[1] = target.GetComponent<Renderer>().material.color;
+		}else if(target.GetComponent<Light>()){
+			colors[0] = colors[1] = target.GetComponent<Light>().color;	
 		}		
 		
 		//to values:
@@ -4883,14 +4946,23 @@ public class iTween : MonoBehaviour{
 		colors[3].a=Mathf.SmoothDamp(colors[0].a,colors[1].a,ref colors[2].a,time);
 				
 		//apply:
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+		if(target.GetComponent<Image>()){
+			target.GetComponent<Image>().color=colors[3];
+		}else if(target.GetComponent<Text>()){
+			target.GetComponent<Text>().material.color=colors[3];
+		}
+#else
 		if(target.GetComponent<GUITexture>()){
 			target.guiTexture.color=colors[3];
 		}else if(target.GetComponent<GUIText>()){
 			target.guiText.material.color=colors[3];
-		}else if(target.renderer){
-			target.renderer.material.color=colors[3];
-		}else if(target.light){
-			target.light.color=colors[3];	
+		}
+#endif
+		else if(target.GetComponent<Renderer>()){
+			target.GetComponent<Renderer>().material.color=colors[3];
+		}else if(target.GetComponent<Light>()){
+			target.GetComponent<Light>().color=colors[3];	
 		}
 	}	
 	
@@ -4945,7 +5017,7 @@ public class iTween : MonoBehaviour{
 			audioSource=(AudioSource)args["audiosource"];
 		}else{
 			if(target.GetComponent<AudioSource>()){
-				audioSource=target.audio;
+				audioSource=target.GetComponent<AudioSource>();
 			}else{
 				//throw error if no AudioSource is available:
 				Debug.LogError("iTween Error: AudioUpdate requires an AudioSource.");
@@ -5066,10 +5138,10 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//need physics?
-		if(target.rigidbody != null){
+		if(target.GetComponent<Rigidbody>() != null){
 			Vector3 postUpdate=target.transform.eulerAngles;
 			target.transform.eulerAngles=preUpdate;
-			target.rigidbody.MoveRotation(Quaternion.Euler(postUpdate));
+			target.GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(postUpdate));
 		}
 	}
 		
@@ -5275,10 +5347,10 @@ public class iTween : MonoBehaviour{
 		}	
 		
 		//need physics?
-		if(target.rigidbody != null){
+		if(target.GetComponent<Rigidbody>() != null){
 			Vector3 postUpdate=target.transform.position;
 			target.transform.position=preUpdate;
-			target.rigidbody.MovePosition(postUpdate);
+			target.GetComponent<Rigidbody>().MovePosition(postUpdate);
 		}
 	}
 
@@ -6012,7 +6084,11 @@ public class iTween : MonoBehaviour{
 	/// </param>
 	public static void CameraFadeSwap(Texture2D texture){
 		if(cameraFade){
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+#else
 			cameraFade.guiTexture.texture=texture;
+#endif
 		}
 	}
 	
@@ -6035,9 +6111,16 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,depth);
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
+#else
 			cameraFade.AddComponent<GUITexture>();
 			cameraFade.guiTexture.texture=texture;
 			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+#endif
 			return cameraFade;
 		}
 	}
@@ -6058,9 +6141,16 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,Defaults.cameraFadeDepth);
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
+#else
 			cameraFade.AddComponent<GUITexture>();
 			cameraFade.guiTexture.texture=texture;
 			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+#endif
 			return cameraFade;
 		}
 	}
@@ -6078,9 +6168,17 @@ public class iTween : MonoBehaviour{
 			//establish colorFade object:
 			cameraFade = new GameObject("iTween Camera Fade");
 			cameraFade.transform.position= new Vector3(.5f,.5f,Defaults.cameraFadeDepth);
+#if UNITY_2022_3_OR_NEWER || UNITY_2022_2_OR_NEWER || UNITY_2022_1_OR_NEWER || UNITY_2021_3_OR_NEWER || UNITY_2021_2_OR_NEWER || UNITY_2021_1_OR_NEWER || UNITY_2020_3_OR_NEWER || UNITY_2020_2_OR_NEWER || UNITY_2020_1_OR_NEWER || UNITY_2019_4_OR_NEWER || UNITY_2019_3_OR_NEWER || UNITY_2019_2_OR_NEWER || UNITY_2019_1_OR_NEWER || UNITY_2018_4_OR_NEWER || UNITY_2018_3_OR_NEWER || UNITY_2018_2_OR_NEWER || UNITY_2018_1_OR_NEWER || UNITY_2017_4_OR_NEWER || UNITY_2017_3_OR_NEWER || UNITY_2017_2_OR_NEWER || UNITY_2017_1_OR_NEWER
+			cameraFade.AddComponent<Canvas>();
+			cameraFade.AddComponent<Image>();
+			Texture2D blackTexture = CameraTexture(Color.black);
+			cameraFade.GetComponent<Image>().sprite = Sprite.Create(blackTexture, new Rect(0, 0, blackTexture.width, blackTexture.height), new Vector2(0.5f, 0.5f));
+			cameraFade.GetComponent<Image>().color = new Color(.5f,.5f,.5f,0);
+#else
 			cameraFade.AddComponent<GUITexture>();
 			cameraFade.guiTexture.texture=CameraTexture(Color.black);
 			cameraFade.guiTexture.color = new Color(.5f,.5f,.5f,0);
+#endif
 			return cameraFade;
 		}
 	}	
@@ -6822,7 +6920,7 @@ public class iTween : MonoBehaviour{
 		}
 			
 		//do we need to use physics, is there a rigidbody?
-		if(rigidbody != null){
+		if(GetComponent<Rigidbody>() != null){
 			physics=true;
 		}
                
@@ -7500,4 +7598,4 @@ public class iTween : MonoBehaviour{
 	public static void tweenCount(GameObject target, Hashtable args){Debug.LogError("iTween Error: tweenCount() has been deprecated. Please investigate Count().");}
 	*/
 	#endregion
-} 
+}                                                
