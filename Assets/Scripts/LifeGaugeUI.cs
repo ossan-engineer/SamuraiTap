@@ -41,12 +41,16 @@ public class LifeGaugeUI : MonoBehaviour {
 			Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
 			backgroundImage.sprite = bgSprite;
 			backgroundImage.color = Color.white;
+			backgroundImage.type = Image.Type.Simple;
 		}
 		
 		if (fillImage != null && fgImageTexture != null) {
 			Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
 			fillImage.sprite = fgSprite;
 			fillImage.color = Color.white;
+			fillImage.type = Image.Type.Filled;  // 塗りつぶしタイプに設定
+			fillImage.fillMethod = Image.FillMethod.Horizontal;  // 水平方向の塗りつぶし
+			fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;  // 左から右へ塗りつぶし
 		}
 		
 		UpdateLifeGauge();
