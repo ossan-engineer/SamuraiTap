@@ -40,53 +40,79 @@ public class LifeGaugeUI : MonoBehaviour {
 		Debug.Log("LifeGaugeUI Start: 初期化開始");
 		
 		if (backgroundImage == null) {
-			Debug.LogError("backgroundImageがnullです。Inspectorで設定してください。");
-		} else {
-			Debug.Log("backgroundImage: " + backgroundImage.name);
-			
-			backgroundImage.color = Color.black;
-			
-			if (bgImageTexture != null) {
-				Debug.Log("bgImageTexture: " + bgImageTexture.name + " サイズ: " + bgImageTexture.width + "x" + bgImageTexture.height);
-				try {
-					Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
-					backgroundImage.sprite = bgSprite;
-					backgroundImage.type = Image.Type.Simple;
-					Debug.Log("背景画像の設定完了");
-				} catch (System.Exception e) {
-					Debug.LogError("背景画像の設定中にエラー: " + e.Message);
-				}
+			Debug.LogWarning("backgroundImageがnullです。自動的に作成します。");
+			GameObject bgObj = new GameObject("BackgroundImage");
+			bgObj.transform.SetParent(transform);
+			backgroundImage = bgObj.AddComponent<Image>();
+			RectTransform bgRect = bgObj.GetComponent<RectTransform>();
+			bgRect.anchorMin = new Vector2(0, 0);
+			bgRect.anchorMax = new Vector2(1, 1);
+			bgRect.offsetMin = Vector2.zero;
+			bgRect.offsetMax = Vector2.zero;
+		}
+		
+		Debug.Log("backgroundImage: " + backgroundImage.name);
+		
+		backgroundImage.color = Color.black;
+		backgroundImage.raycastTarget = false;
+		
+		if (bgImageTexture != null) {
+			Debug.Log("bgImageTexture: " + bgImageTexture.name + " サイズ: " + bgImageTexture.width + "x" + bgImageTexture.height);
+			try {
+				Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
+				backgroundImage.sprite = bgSprite;
+				backgroundImage.type = Image.Type.Simple;
+				Debug.Log("背景画像の設定完了");
+			} catch (System.Exception e) {
+				Debug.LogError("背景画像の設定中にエラー: " + e.Message);
 			}
+		} else {
+			Debug.LogWarning("bgImageTextureがnullです。単色で表示します。");
+			backgroundImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
 		}
 		
 		if (fillImage == null) {
-			Debug.LogError("fillImageがnullです。Inspectorで設定してください。");
-		} else {
-			Debug.Log("fillImage: " + fillImage.name);
-			
-			fillImage.color = Color.red;
-			
-			fillImage.type = Image.Type.Filled;
-			fillImage.fillMethod = Image.FillMethod.Horizontal;
-			fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
-			
-			if (fgImageTexture != null) {
-				Debug.Log("fgImageTexture: " + fgImageTexture.name + " サイズ: " + fgImageTexture.width + "x" + fgImageTexture.height);
-				try {
-					Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
-					fillImage.sprite = fgSprite;
-					Debug.Log("塗りつぶし画像の設定完了");
-				} catch (System.Exception e) {
-					Debug.LogError("塗りつぶし画像の設定中にエラー: " + e.Message);
-				}
+			Debug.LogWarning("fillImageがnullです。自動的に作成します。");
+			GameObject fillObj = new GameObject("FillImage");
+			fillObj.transform.SetParent(transform);
+			fillImage = fillObj.AddComponent<Image>();
+			fillRectTransform = fillObj.GetComponent<RectTransform>();
+			fillRectTransform.anchorMin = new Vector2(0, 0);
+			fillRectTransform.anchorMax = new Vector2(1, 1);
+			fillRectTransform.offsetMin = Vector2.zero;
+			fillRectTransform.offsetMax = Vector2.zero;
+		}
+		
+		Debug.Log("fillImage: " + fillImage.name);
+		
+		fillImage.color = Color.red;
+		fillImage.raycastTarget = false;
+		fillImage.type = Image.Type.Filled;
+		fillImage.fillMethod = Image.FillMethod.Horizontal;
+		fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
+		
+		if (fgImageTexture != null) {
+			Debug.Log("fgImageTexture: " + fgImageTexture.name + " サイズ: " + fgImageTexture.width + "x" + fgImageTexture.height);
+			try {
+				Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
+				fillImage.sprite = fgSprite;
+				Debug.Log("塗りつぶし画像の設定完了");
+			} catch (System.Exception e) {
+				Debug.LogError("塗りつぶし画像の設定中にエラー: " + e.Message);
 			}
+		} else {
+			Debug.LogWarning("fgImageTextureがnullです。単色で表示します。");
+			fillImage.color = new Color(1f, 0.2f, 0.2f, 1f);
 		}
 		
 		if (fillRectTransform == null) {
-			Debug.LogError("fillRectTransformがnullです。");
-		} else {
-			Debug.Log("fillRectTransform サイズ: " + fillRectTransform.rect.width + "x" + fillRectTransform.rect.height);
+			Debug.LogWarning("fillRectTransformがnullです。fillImageから取得します。");
+			fillRectTransform = fillImage.GetComponent<RectTransform>();
 		}
+		
+		Debug.Log("fillRectTransform サイズ: " + fillRectTransform.rect.width + "x" + fillRectTransform.rect.height);
+		
+		fillImage.fillAmount = 1.0f;
 		
 		UpdateLifeGauge();
 		Debug.Log("LifeGaugeUI Start: 初期化完了");
