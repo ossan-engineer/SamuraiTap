@@ -5,7 +5,7 @@ public class ParticleSystemAutoDestruct : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (particleSystem.IsAlive() == false) {
+		if (GetComponent<ParticleSystem>().IsAlive() == false) {
 			Destroy(gameObject);
 		}
 	}

@@ -18,7 +18,7 @@ public class Players : MonoBehaviour {
 
 		// SoundEffectsHelper.Instance.MakeDashSound();
 
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 		
 	}
 	
@@ -27,7 +27,7 @@ public class Players : MonoBehaviour {
 		buttom.GetComponent<BoxCollider2D>().enabled = true;;
 		//SoundEffectsHelper.Instance.Destroy();
 
-		audio.Stop();
+		GetComponent<AudioSource>().Stop();
 	}
 
 }

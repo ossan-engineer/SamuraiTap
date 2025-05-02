@@ -17,7 +17,7 @@ public class StageClearWrapper : MonoBehaviour {
 		iTween.MoveTo(gameObject, hTable);
 
 		// isStageClear = true;
-		audio.Play();
+		GetComponent<AudioSource>().Play();
 
 		Debug.Log ("BlowOff");
 	}
