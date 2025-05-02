@@ -37,11 +37,24 @@ public class LifeGaugeUI : MonoBehaviour {
 	}
 	
 	void Start () {
+		if (backgroundImage != null && bgImageTexture != null) {
+			Sprite bgSprite = Sprite.Create(bgImageTexture, new Rect(0, 0, bgImageTexture.width, bgImageTexture.height), new Vector2(0.5f, 0.5f));
+			backgroundImage.sprite = bgSprite;
+			backgroundImage.color = Color.white;
+		}
+		
+		if (fillImage != null && fgImageTexture != null) {
+			Sprite fgSprite = Sprite.Create(fgImageTexture, new Rect(0, 0, fgImageTexture.width, fgImageTexture.height), new Vector2(0.5f, 0.5f));
+			fillImage.sprite = fgSprite;
+			fillImage.color = Color.white;
+		}
+		
 		UpdateLifeGauge();
 	}
 	
 	
 	void Update () {
+		UpdateLifeGauge();
 	}
 
 	void UpdateLifeGauge () {

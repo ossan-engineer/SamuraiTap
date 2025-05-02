@@ -27,7 +27,7 @@ public class SceneController : MonoBehaviour {
 
 			timer += Time.deltaTime;
 			if(timer > waitingTime){
-				if (Input.GetButtonDown("Fire1")) {
+				if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
 					// Application.LoadLevel(nextStage); // 非推奨APIを削除
 					SceneManager.LoadScene(nextStage); // 新しいシーン読み込みAPIを使用
 				}
