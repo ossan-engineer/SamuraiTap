@@ -30,13 +30,20 @@ public class MenuGUI : MonoBehaviour {
             titleTexture = Resources.Load<Texture2D>("Images/Title");
             
             if (titleTexture == null) {
-                Debug.LogWarning("Resources/Images/Titleが見つかりません。Assets/Imagesから読み込みます。");
-                string[] titleFiles = Directory.GetFiles(Application.dataPath + "/Images", "Title.png", SearchOption.AllDirectories);
-                if (titleFiles.Length > 0) {
-                    string path = titleFiles[0].Replace(Application.dataPath, "Assets");
-                    titleTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-                    Debug.Log("タイトルテクスチャを読み込みました: " + path);
+                Debug.LogWarning("Resources/Images/Titleが見つかりません。");
+                
+                #if UNITY_EDITOR
+                try {
+                    string[] titleFiles = Directory.GetFiles(Application.dataPath + "/Images", "Title.png", SearchOption.AllDirectories);
+                    if (titleFiles.Length > 0) {
+                        string path = titleFiles[0].Replace(Application.dataPath, "Assets");
+                        titleTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+                        Debug.Log("タイトルテクスチャを読み込みました: " + path);
+                    }
+                } catch (System.Exception e) {
+                    Debug.LogError("タイトルテクスチャの読み込み中にエラーが発生しました: " + e.Message);
                 }
+                #endif
             }
         }
     }

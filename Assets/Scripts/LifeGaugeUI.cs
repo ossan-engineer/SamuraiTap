@@ -42,13 +42,20 @@ public class LifeGaugeUI : MonoBehaviour {
 			bgImageTexture = Resources.Load<Texture2D>("Images/Blue");
 			
 			if (bgImageTexture == null) {
-				Debug.LogWarning("Resources/Images/Blueが見つかりません。Assets/Imagesから読み込みます。");
-				string[] bgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Blue.png", System.IO.SearchOption.AllDirectories);
-				if (bgFiles.Length > 0) {
-					string path = bgFiles[0].Replace(Application.dataPath, "Assets");
-					bgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-					Debug.Log("背景テクスチャを読み込みました: " + path);
+				Debug.LogWarning("Resources/Images/Blueが見つかりません。");
+				
+				#if UNITY_EDITOR
+				try {
+					string[] bgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Blue.png", System.IO.SearchOption.AllDirectories);
+					if (bgFiles.Length > 0) {
+						string path = bgFiles[0].Replace(Application.dataPath, "Assets");
+						bgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+						Debug.Log("背景テクスチャを読み込みました: " + path);
+					}
+				} catch (System.Exception e) {
+					Debug.LogError("背景テクスチャの読み込み中にエラーが発生しました: " + e.Message);
 				}
+				#endif
 			}
 		}
 		
@@ -57,13 +64,20 @@ public class LifeGaugeUI : MonoBehaviour {
 			fgImageTexture = Resources.Load<Texture2D>("Images/Red");
 			
 			if (fgImageTexture == null) {
-				Debug.LogWarning("Resources/Images/Redが見つかりません。Assets/Imagesから読み込みます。");
-				string[] fgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Red.png", System.IO.SearchOption.AllDirectories);
-				if (fgFiles.Length > 0) {
-					string path = fgFiles[0].Replace(Application.dataPath, "Assets");
-					fgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-					Debug.Log("前景テクスチャを読み込みました: " + path);
+				Debug.LogWarning("Resources/Images/Redが見つかりません。");
+				
+				#if UNITY_EDITOR
+				try {
+					string[] fgFiles = System.IO.Directory.GetFiles(Application.dataPath + "/Images", "Red.png", System.IO.SearchOption.AllDirectories);
+					if (fgFiles.Length > 0) {
+						string path = fgFiles[0].Replace(Application.dataPath, "Assets");
+						fgImageTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+						Debug.Log("前景テクスチャを読み込みました: " + path);
+					}
+				} catch (System.Exception e) {
+					Debug.LogError("前景テクスチャの読み込み中にエラーが発生しました: " + e.Message);
 				}
+				#endif
 			}
 		}
 		
