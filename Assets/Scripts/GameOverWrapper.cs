@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement; // 新しいシーン管理用の名前空間を追加
 using System.Collections;
 
 public class GameOverWrapper : MonoBehaviour {
@@ -8,9 +9,15 @@ public class GameOverWrapper : MonoBehaviour {
 
 	public float timer;
 	public float waitingTime = 2f;
+	
+	private AudioSource audioSource;
+	
+	void Awake() {
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	// Use this for initialization
-	void BlowOff () {
+	public void BlowOff () {
 		Hashtable hTable = new Hashtable();
 		hTable.Add ("y", 8f);
 		hTable.Add ("easeType", "easeOutQuad");
@@ -21,15 +28,19 @@ public class GameOverWrapper : MonoBehaviour {
 		iTween.MoveTo(gameObject, hTable);
 		Debug.Log ("BlowOff");
 
-		// audio.PlayOneShot (SEClip);
+		// audio.PlayOneShot (SEClip); // 非推奨APIを削除
 
 		isGameOver = true;
-		audio.Play();
+		
+		if (audioSource != null) {
+			audioSource.Play();
+		}
+		
 		Debug.Log(isGameOver);
 	}
 
 	void Start () {
-		// audio.clip = SEClip;
+		// audio.clip = SEClip; // 非推奨APIを削除
 	}
 
 	// Update is called once per frame
@@ -40,7 +51,8 @@ public class GameOverWrapper : MonoBehaviour {
 			if(timer > waitingTime){
 				//Action
 				if (Input.GetButtonDown("Fire1")) {
-					Application.LoadLevel("Title");
+					// Application.LoadLevel("Title"); // 非推奨APIを削除
+					SceneManager.LoadScene("Title"); // 新しいシーン読み込みAPIを使用
 				}
 				// timer = 0;
 			}
