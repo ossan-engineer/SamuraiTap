@@ -86,8 +86,17 @@ public class SoundEffectsHelper : MonoBehaviour
 	/// <param name="originalClip"></param>
 	private void MakeSound(AudioClip originalClip)
 	{
-		// As it is not 3D audio clip, position doesn't matter.
-		AudioSource.PlayClipAtPoint(originalClip, transform.position);
+		try {
+			if (originalClip != null) {
+				// As it is not 3D audio clip, position doesn't matter.
+				AudioSource.PlayClipAtPoint(originalClip, transform.position);
+				Debug.Log("サウンドを再生しました: " + originalClip.name);
+			} else {
+				Debug.LogWarning("再生しようとしたオーディオクリップがnullです");
+			}
+		} catch (System.Exception e) {
+			Debug.LogError("サウンド再生中にエラーが発生しました: " + e.Message);
+		}
 	}
 
 //	private void StopSound(AudioClip originalClip)

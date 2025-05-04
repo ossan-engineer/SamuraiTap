@@ -132,9 +132,25 @@ public class MenuGUI : MonoBehaviour {
     }
     
     void Update() {
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
-            Debug.Log("画面がタップされました");
-            SceneManager.LoadScene("Stage 1-1");
+        try {
+            bool touchDetected = false;
+            try {
+                touchDetected = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+            } catch (System.Exception e) {
+                Debug.LogWarning("タッチ入力の検出中にエラーが発生しました: " + e.Message);
+                touchDetected = false;
+            }
+            
+            if (Input.GetMouseButtonDown(0) || touchDetected) {
+                Debug.Log("画面がタップされました");
+                try {
+                    SceneManager.LoadScene("Stage 1-1");
+                } catch (System.Exception e) {
+                    Debug.LogError("シーン読み込み中にエラーが発生しました: " + e.Message);
+                }
+            }
+        } catch (System.Exception e) {
+            Debug.LogError("Update中にエラーが発生しました: " + e.Message + "\n" + e.StackTrace);
         }
     }
 }

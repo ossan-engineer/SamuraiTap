@@ -8,24 +8,57 @@ public class Player : MonoBehaviour {
 	static Vector2 playerPosition;
 
 	void Update () {
-
-//		if (!initShot) {
-//			timer += Time.deltaTime;
-//			if(timer > waitingTime){
-//				//Action
-//				rigidbody2D.AddForce( new Vector2(Random.Range(-500f, 500f), 1000f) );
-//				initShot = true;
-//			}
-//		}
-
-		if(Input.GetButtonDown("Fire1")) {
-			GetComponent<Rigidbody2D>().AddForce(power);
-			// rigidbody2D.AddTorque(500f);
-			// Debug.Log("Fire");
-
-			SoundEffectsHelper.Instance.MakePlayerShotSound();
+		try {
+			bool touchDetected = false;
+			try {
+				touchDetected = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+			} catch (System.Exception e) {
+				Debug.LogWarning("タッチ入力の検出中にエラーが発生しました: " + e.Message);
+				touchDetected = false;
+			}
+			
+			bool mouseClicked = false;
+			try {
+				mouseClicked = Input.GetMouseButtonDown(0);
+			} catch (System.Exception e) {
+				Debug.LogWarning("マウス入力の検出中にエラーが発生しました: " + e.Message);
+				mouseClicked = false;
+			}
+			
+			bool buttonPressed = false;
+			try {
+				buttonPressed = Input.GetButtonDown("Fire1");
+			} catch (System.Exception e) {
+				Debug.LogWarning("ボタン入力の検出中にエラーが発生しました: " + e.Message);
+				buttonPressed = false;
+			}
+			
+			if (mouseClicked || touchDetected || buttonPressed) {
+				try {
+					Rigidbody2D rb = GetComponent<Rigidbody2D>();
+					if (rb != null) {
+						rb.AddForce(power);
+						Debug.Log("プレイヤーに力を加えました: " + power);
+					} else {
+						Debug.LogWarning("Rigidbody2Dコンポーネントが見つかりません");
+					}
+					
+					try {
+						if (SoundEffectsHelper.Instance != null) {
+							SoundEffectsHelper.Instance.MakePlayerShotSound();
+						} else {
+							Debug.LogWarning("SoundEffectsHelper.Instanceがnullです");
+						}
+					} catch (System.Exception e) {
+						Debug.LogError("サウンド再生中にエラーが発生しました: " + e.Message);
+					}
+				} catch (System.Exception e) {
+					Debug.LogError("力を加える処理中にエラーが発生しました: " + e.Message);
+				}
+			}
+		} catch (System.Exception e) {
+			Debug.LogError("Player.Update中にエラーが発生しました: " + e.Message + "\n" + e.StackTrace);
 		}
-	
 	}
 
 }
