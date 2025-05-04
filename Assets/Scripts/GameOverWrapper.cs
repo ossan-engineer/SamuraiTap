@@ -18,25 +18,33 @@ public class GameOverWrapper : MonoBehaviour {
 
 	// Use this for initialization
 	public void BlowOff () {
-		Hashtable hTable = new Hashtable();
-		hTable.Add ("y", 8f);
-		hTable.Add ("easeType", "easeOutQuad");
-		// hTable.Add ("easeType", "easeOutBounce");
-		hTable.Add ("oncomplete", "CompleteHandler");
-		hTable.Add ("time", 1);
-		// hTable.Add ("delay", 1);
-		iTween.MoveTo(gameObject, hTable);
-		Debug.Log ("BlowOff");
+		try {
+			Hashtable hTable = new Hashtable();
+			hTable.Add ("y", 8f);
+			hTable.Add ("easeType", "easeOutQuad");
+			// hTable.Add ("easeType", "easeOutBounce");
+			// hTable.Add ("oncomplete", "CompleteHandler");
+			hTable.Add ("time", 1);
+			// hTable.Add ("delay", 1);
+			iTween.MoveTo(gameObject, hTable);
+			Debug.Log ("BlowOff");
 
-		// audio.PlayOneShot (SEClip); // 非推奨APIを削除
+			// audio.PlayOneShot (SEClip); // 非推奨APIを削除
 
-		isGameOver = true;
-		
-		if (audioSource != null) {
-			audioSource.Play();
+			isGameOver = true;
+			
+			if (audioSource != null) {
+				audioSource.Play();
+			}
+			
+			Debug.Log(isGameOver);
+		} catch (System.Exception e) {
+			Debug.LogError("BlowOff中にエラーが発生しました: " + e.Message + "\n" + e.StackTrace);
 		}
-		
-		Debug.Log(isGameOver);
+	}
+	
+	void CompleteHandler() {
+		Debug.Log("GameOverWrapper: アニメーション完了");
 	}
 
 	void Start () {
